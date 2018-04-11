@@ -7,7 +7,7 @@ indx = str.rindex('Ruby')
 puts "index of \"Ruby\" in \"Hello, Ruby\" is #{indx}"
 
 # Print your name ten times.
-10.times do puts 'Scott McAllister' end
+10.times { puts 'Scott McAllister' }
 
 # Print “This is sentence number 1,” where the number changes from 1 to 10.
 for sentence_number in 1..10 do
