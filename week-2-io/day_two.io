@@ -55,33 +55,83 @@ numList myAverage := numList average
 numList myAverage println
 
 // create a 2d list "matrix" class
-Matrix := Object clone
-Matrix grid := list()
-Matrix dim := method(x, y, 
-    for(i, 0, x - 1,
+Matrix := List clone
+Matrix dim := method(x, y,
+    grid := Matrix clone
+    for(i, 0, y - 1,
         grid append(list())
-        for(j, 0, y - 1,
+        for(j, 0, x - 1,
             grid at(i) append(0)
         )
     )
+    return grid
 )
 Matrix set := method(x, y, val,
-    grid at(x) atPut(y, val)
+    self at(y) atPut(x, val)
 )
 Matrix get := method(x, y,
-    grid at(x) at(y)
+    self at(y) at(x)
 )
 Matrix show := method(
     val := "\n\nMatrix grid: \n\n"
-    for(i, 0, grid size - 1,
-        for(j, 0, grid at(i) size - 1,
+    for(i, 0, self size - 1,
+        for(j, 0, self at(i) size - 1,
             val = "#{val}#{get(i, j)} " interpolate
         )
         val = "#{val}\n" interpolate
     )
 )
-neo := Matrix
-neo dim(3, 3)
-neo set(1, 1, 1)
-neo show println
-neo get(1, 1) println
+
+// write a transpose method so that (new_matrix get(y, x)) == matrix get(x, y)
+Matrix transpose := method(
+    height := self size
+    width := self first size
+    newMatrix := self dim(height, width)
+    for (y, 0, height - 1,
+        for(x, 0, width - 1,
+            newMatrix at(x) atPut(y, self at(y) at(x))
+        )
+    )
+    return newMatrix
+)
+
+m1 := Matrix dim(3, 3)
+m1 set(1, 2, 1)
+m1 show println
+m2 := m1 transpose
+m2 show println
+
+
+// write the matrix to a file, and read a matrix from a file
+file := File open("./matrix.txt")
+file write(m2 serialized())
+file close()
+
+output := doFile("./matrix.txt")
+output println
+
+// write a program that gives you ten tries to guess a random number from 1–100
+game := method(
+    "\n\nGuess a number between 1 and 100" println
+    input := File standardInput()
+    number := Random value(100) floor + 1
+    tryNum := 1
+    prevGuess := nil
+    while(tryNum <= 10,
+        guess := input readLine() asNumber()
+        if(guess == number,
+            "You win!" println
+            break,
+            if(prevGuess != nil,
+                hotter := ((number - guess) abs()) < ((number - prevGuess) abs())
+                if(hotter, "hotter" println, "colder" println)
+                , "nope" println
+            )
+            tryNum = tryNum + 1
+            prevGuess = guess
+        )
+    )
+    "You lose :(" println
+)
+
+game
