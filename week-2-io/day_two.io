@@ -54,3 +54,34 @@ numList := list(1, 2, 3, 4, 5, 6)
 numList myAverage := numList average
 numList myAverage println
 
+// create a 2d list "matrix" class
+Matrix := Object clone
+Matrix grid := list()
+Matrix dim := method(x, y, 
+    for(i, 0, x - 1,
+        grid append(list())
+        for(j, 0, y - 1,
+            grid at(i) append(0)
+        )
+    )
+)
+Matrix set := method(x, y, val,
+    grid at(x) atPut(y, val)
+)
+Matrix get := method(x, y,
+    grid at(x) at(y)
+)
+Matrix show := method(
+    val := "\n\nMatrix grid: \n\n"
+    for(i, 0, grid size - 1,
+        for(j, 0, grid at(i) size - 1,
+            val = "#{val}#{get(i, j)} " interpolate
+        )
+        val = "#{val}\n" interpolate
+    )
+)
+neo := Matrix
+neo dim(3, 3)
+neo set(1, 1, 1)
+neo show println
+neo get(1, 1) println
