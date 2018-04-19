@@ -6,6 +6,6 @@
 *.iml
 *.ipr
 *.iws
-.idea
+.idea/
 out
 .DS_Store
