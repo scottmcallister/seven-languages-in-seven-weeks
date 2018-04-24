@@ -16,8 +16,7 @@ fibonacciAlt := method(num,
             i = i + 1
         )
         fib
-    )
-    
+    )   
 )
 n := 1
 "fibonacci with recursion" println
